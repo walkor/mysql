@@ -11,6 +11,6 @@
         "ext-pdo_mysql": "*"
     },
     "autoload": {
-        "psr-4": {"Workerman\\MySQL": "./src"}
+        "psr-4": {"Workerman\\MySQL\\": "./src"}
     }
 }
