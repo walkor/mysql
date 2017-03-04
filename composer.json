@@ -7,7 +7,7 @@
     "description": "Long-living MySQL connection for daemon.",
     "require": {
         "php": ">=5.3",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
         "ext-pdo_mysql": "*"
     },
     "autoload": {
