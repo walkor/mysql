@@ -38,19 +38,25 @@ $db->single("SELECT ID,Sex FROM `Persons` WHERE sex='M'");
 
 // Complex query.
 $db->select('*')->from('table1')->innerJoin('table2','table1.uid = table2.uid')->where('age > :age')
-->groupBy(array('aid'))->having('foo="foo"')->orderByASC/*orderByDESC*/(array('did'))->
-limit(10)->offset(20)->bindValues(array('age' => 13));
+->groupBy(array('aid'))->having('foo="foo"')->orderByASC/*orderByDESC*/(array('did'))
+->limit(10)->offset(20)->bindValues(array('age' => 13));
 // Equivalent to.
 $db->query(SELECT * FROM `table1` INNER JOIN `table2` ON `table1`.`uid` = `table2`.`uid` WHERE age > 13
 GROUP BY aid HAVING foo="foo" ORDER BY did LIMIT 10 OFFSET 20“);
 
 // Insert.
-$insert_id = $db->insert('Persons')->cols(array('Firstname'=>'abc', 'Lastname'=>'efg', 'Sex'=>'M', 'Age'=>13))->query();
+$insert_id = $db->insert('Persons')->cols(array(
+    'Firstname'=>'abc', 
+    'Lastname'=>'efg', 
+    'Sex'=>'M', 
+    'Age'=>13))->query();
 // Equivalent to.
-$insert_id = $db->query("INSERT INTO `Persons` ( `Firstname`,`Lastname`,`Sex`,`Age`) VALUES ( 'abc', 'efg', 'M', 13)");
+$insert_id = $db->query("INSERT INTO `Persons` ( `Firstname`,`Lastname`,`Sex`,`Age`) 
+VALUES ( 'abc', 'efg', 'M', 13)");
 
 // Updagte.
-$row_count = $db->update('Persons')->cols(array('sex'))->where('ID=1')->bindValue('sex', 'F')->query();
+$row_count = $db->update('Persons')->cols(array('sex'))->where('ID=1')
+->bindValue('sex', 'F')->query();
 // Equivalent to.
 $row_count = $db->update('Persons')->cols(array('sex'=>'F'))->where('ID=1')->query();
 // Equivalent to.
