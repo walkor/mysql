@@ -3,7 +3,7 @@
 Long-living MySQL connection for daemon.
 
 # Usage
-
+```php
 $db = new Workerman\MySQL\Connection($mysql_host, $mysql_port, $user, $password, $db_bname);
 
 // Get all rows.
