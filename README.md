@@ -37,10 +37,12 @@ $db->select('ID,Sex')->from('Persons')->where("sex= 'F' ")->single();
 $db->single("SELECT ID,Sex FROM `Persons` WHERE sex='M'");
 
 // Complex query.
-$db->select('*')->from('table1')->innerJoin('table2','table1.uid = table2.uid')->where('age > :age')->groupBy(array('aid'))->having('foo="foo"')->orderByASC/*orderByDESC*/(array('did'))->limit(10)->offset(20)->bindValues(arra
-y('age' => 13));
+$db->select('*')->from('table1')->innerJoin('table2','table1.uid = table2.uid')->where('age > :age')
+->groupBy(array('aid'))->having('foo="foo"')->orderByASC/*orderByDESC*/(array('did'))->
+limit(10)->offset(20)->bindValues(array('age' => 13));
 // Equivalent to.
-$db->query(SELECT * FROM `table1` INNER JOIN `table2` ON `table1`.`uid` = `table2`.`uid` WHERE age > 13 GROUP BY aid HAVING foo="foo" ORDER BY did LIMIT 10 OFFSET 20“);
+$db->query(SELECT * FROM `table1` INNER JOIN `table2` ON `table1`.`uid` = `table2`.`uid` WHERE age > 13
+GROUP BY aid HAVING foo="foo" ORDER BY did LIMIT 10 OFFSET 20“);
 
 // Insert.
 $insert_id = $db->insert('Persons')->cols(array('Firstname'=>'abc', 'Lastname'=>'efg', 'Sex'=>'M', 'Age'=>13))->query();
