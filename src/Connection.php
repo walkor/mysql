@@ -216,7 +216,7 @@ class Connection
     {
         $this->type = 'SELECT';
         if (!is_array($cols)) {
-            $cols = array($cols);
+            $cols = explode(',', $cols);
         }
         $this->cols($cols);
         return $this;
