@@ -530,12 +530,12 @@ class Connection
     {
         $parts = explode(' ', $spec);
         $count = count($parts);
-        if ($count == 2) {
+        if ($count == 2 && trim($parts[0]) != '' && trim($parts[1]) != '') {
             $this->cols[$parts[1]] = $parts[0];
         } elseif ($count == 3 && strtoupper($parts[1]) == 'AS') {
             $this->cols[$parts[2]] = $parts[0];
         } else {
-            $this->cols[] = $spec;
+            $this->cols[] = trim($spec);
         }
     }
 
