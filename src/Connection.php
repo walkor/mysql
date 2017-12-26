@@ -1340,8 +1340,11 @@ class Connection
         $quoted = $this->replaceNamesIn($val);
         $pos    = strripos($quoted, ' AS ');
         if ($pos !== false) {
-            $alias  = $this->replaceName(substr($quoted, $pos + 4));
-            $quoted = substr($quoted, 0, $pos) . " AS $alias";
+            $bracket = strripos($quoted, ')');
+            if ($bracket === false) {
+                $alias = $this->replaceName(substr($quoted, $pos + 4));
+                $quoted = substr($quoted, 0, $pos) . " AS $alias";
+            }
         }
         return $quoted;
     }
