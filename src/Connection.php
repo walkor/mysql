@@ -1733,7 +1733,10 @@ class Connection
     protected function execute($query, $parameters = "")
     {
         try {
-            $this->sQuery = @$this->pdo->prepare($query);
+            if (is_null($this->pdo)) { 
+                $this->connect(); 
+            }
+            $this->sQuery = $this->pdo->prepare($query);
             $this->bindMore($parameters);
             if (!empty($this->parameters)) {
                 foreach ($this->parameters as $param) {
@@ -1948,6 +1951,9 @@ class Connection
     public function beginTrans()
     {
         try {
+            if (is_null($this->pdo)) { 
+                $this->connect(); 
+            }
             return $this->pdo->beginTransaction();
         } catch (PDOException $e) {
             // 服务端断开时重连一次
