@@ -1834,7 +1834,7 @@ class Connection
         $statement = strtolower(trim($rawStatement[0]));
         if ($statement === 'select' || $statement === 'show') {
             return $this->sQuery->fetchAll($fetchmode);
-        } elseif ($statement === 'update' || $statement === 'delete') {
+        } elseif ($statement === 'update' || $statement === 'delete' || $statement === 'replace') {
             return $this->sQuery->rowCount();
         } elseif ($statement === 'insert') {
             if ($this->sQuery->rowCount() > 0) {
