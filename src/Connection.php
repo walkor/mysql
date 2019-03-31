@@ -1736,7 +1736,7 @@ class Connection
             if (is_null($this->pdo)) { 
                 $this->connect(); 
             }
-            $this->sQuery = $this->pdo->prepare($query);
+            $this->sQuery = @$this->pdo->prepare($query);
             $this->bindMore($parameters);
             if (!empty($this->parameters)) {
                 foreach ($this->parameters as $param) {
