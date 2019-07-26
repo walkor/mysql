@@ -3,7 +3,7 @@
 Long-living MySQL connection for daemon.
 
 # Install
-```composer require workerman/mysql```
+```composer require jichangfeng/mysql```
 
 # Usage
 ```php

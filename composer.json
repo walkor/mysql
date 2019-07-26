@@ -1,5 +1,5 @@
 {
-    "name"  : "workerman/mysql",
+    "name"  : "jichangfeng/mysql",
     "type"  : "library",
     "keywords": ["mysql", "pdo", "pdo_mysql"],
     "homepage": "http://www.workerman.net",
