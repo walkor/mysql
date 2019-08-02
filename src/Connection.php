@@ -1740,8 +1740,7 @@ class Connection
             $this->bindMore($parameters);
             if (!empty($this->parameters)) {
                 foreach ($this->parameters as $param) {
-                    $parameters = explode("\x7F", $param);
-                    $this->sQuery->bindParam($parameters[0], $parameters[1]);
+                    $this->sQuery->bindParam($param[0], $param[1]);
                 }
             }
             $this->success = $this->sQuery->execute();
@@ -1756,8 +1755,7 @@ class Connection
                     $this->bindMore($parameters);
                     if (!empty($this->parameters)) {
                         foreach ($this->parameters as $param) {
-                            $parameters = explode("\x7F", $param);
-                            $this->sQuery->bindParam($parameters[0], $parameters[1]);
+                            $this->sQuery->bindParam($param[0], $param[1]);
                         }
                     }
                     $this->success = $this->sQuery->execute();
@@ -1785,9 +1783,9 @@ class Connection
     public function bind($para, $value)
     {
         if (is_string($para)) {
-            $this->parameters[sizeof($this->parameters)] = ":" . $para . "\x7F" . $value;
+            $this->parameters[sizeof($this->parameters)] = array(":" . $para, $value);
         } else {
-            $this->parameters[sizeof($this->parameters)] = $para . "\x7F" . $value;
+            $this->parameters[sizeof($this->parameters)] = array($para, $value);
         }
     }
 
