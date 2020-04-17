@@ -1020,6 +1020,7 @@ class Connection
      */
     public function orderBy(array $cols)
     {
+        $this->order_asc = null;
         return $this->addOrderBy($cols);
     }
 
