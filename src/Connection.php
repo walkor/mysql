@@ -1820,7 +1820,14 @@ class Connection
     {
         $query = trim($query);
         if (empty($query)) {
-            $query = $this->build();
+            
+            $union = '';
+            if (! empty($this->union)) {
+                $union = implode(PHP_EOL, $this->union) . PHP_EOL;
+            }
+
+            $query = $union . $this->build();
+            
             if (!$params) {
                 $params = $this->getBindValues();
             }
@@ -1860,7 +1867,14 @@ class Connection
     {
         $query = trim($query);
         if (empty($query)) {
-            $query = $this->build();
+            
+            $union = '';
+            if (! empty($this->union)) {
+                $union = implode(PHP_EOL, $this->union) . PHP_EOL;
+            }
+
+            $query = $union . $this->build();
+            
             if (!$params) {
                 $params = $this->getBindValues();
             }
@@ -1890,7 +1904,14 @@ class Connection
     {
         $query = trim($query);
         if (empty($query)) {
-            $query = $this->build();
+            
+            $union = '';
+            if (! empty($this->union)) {
+                $union = implode(PHP_EOL, $this->union) . PHP_EOL;
+            }
+
+            $query = $union . $this->build();
+            
             if (!$params) {
                 $params = $this->getBindValues();
             }
@@ -1914,7 +1935,14 @@ class Connection
     {
         $query = trim($query);
         if (empty($query)) {
-            $query = $this->build();
+            
+            $union = '';
+            if (! empty($this->union)) {
+                $union = implode(PHP_EOL, $this->union) . PHP_EOL;
+            }
+
+            $query = $union . $this->build();
+            
             if (!$params) {
                 $params = $this->getBindValues();
             }
