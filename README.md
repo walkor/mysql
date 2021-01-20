@@ -57,7 +57,7 @@ $insert_id = $db->insert('Persons')->cols(array(
 $insert_id = $db->query("INSERT INTO `Persons` ( `Firstname`,`Lastname`,`Sex`,`Age`) 
 VALUES ( 'abc', 'efg', 'M', 13)");
 
-// Updagte.
+// Update.
 $row_count = $db->update('Persons')->cols(array('sex'))->where('ID=1')
 ->bindValue('sex', 'F')->query();
 // Equivalent to.
