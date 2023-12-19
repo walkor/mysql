@@ -1768,7 +1768,9 @@ class Connection
                     throw $ex;
                 }
             } else {
-                $this->rollBackTrans();
+                if ($this->db) {
+                     $this->rollBackTrans();
+                }
                 $msg = $e->getMessage();
                 $err_msg = "SQL:".$this->lastSQL()." ".$msg;
                 $exception = new \PDOException($err_msg, (int)$e->getCode());
