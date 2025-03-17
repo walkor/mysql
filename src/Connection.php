@@ -1,4 +1,5 @@
 <?php
+
 namespace Workerman\MySQL;
 
 use Exception;
@@ -108,6 +109,7 @@ class Connection
      * @var bool
      */
     protected $order_asc = null;
+
     /**
      * SELECT 多少记录
      *
@@ -174,9 +176,9 @@ class Connection
     /**
      * PDOStatement 实例
      *
-     * @var \PDOStatement
+     * @var null|\PDOStatement
      */
-    protected $sQuery;
+    protected $sQuery = null;
 
     /**
      * 数据库用户名密码等配置
@@ -230,7 +232,7 @@ class Connection
      */
     public function delete($table)
     {
-        $this->type  = 'DELETE';
+        $this->type = 'DELETE';
         $this->table = $this->quoteName($table);
         $this->fromRaw($this->quoteName($table));
         return $this;
@@ -244,7 +246,7 @@ class Connection
      */
     public function update($table)
     {
-        $this->type  = 'UPDATE';
+        $this->type = 'UPDATE';
         $this->table = $this->quoteName($table);
         return $this;
     }
@@ -257,7 +259,7 @@ class Connection
      */
     public function insert($table)
     {
-        $this->type  = 'INSERT';
+        $this->type = 'INSERT';
         $this->table = $this->quoteName($table);
         return $this;
     }
@@ -492,7 +494,7 @@ class Connection
     public function getBindValuesSELECT()
     {
         $bind_values = $this->bind_values;
-        $i           = 1;
+        $i = 1;
         foreach ($this->bind_where as $val) {
             $bind_values[$i] = $val;
             $i++;
@@ -508,7 +510,7 @@ class Connection
      *
      * SELECT选择哪些列
      *
-     * @param mixed  $key
+     * @param mixed $key
      * @param string $val
      * @return void
      */
@@ -578,7 +580,6 @@ class Connection
         return $this;
     }
 
-
     /**
      * 增加 join 语句
      *
@@ -608,9 +609,9 @@ class Connection
             throw new Exception('Cannot join() without from()');
         }
 
-        $join                          = strtoupper(ltrim("$join JOIN"));
-        $table                         = $this->quoteName($table);
-        $cond                          = $this->fixJoinCondition($cond);
+        $join = strtoupper(ltrim("$join JOIN"));
+        $table = $this->quoteName($table);
+        $cond = $this->fixJoinCondition($cond);
         $this->from[$this->from_key][] = rtrim("$join $table $cond");
         return $this;
     }
@@ -696,9 +697,9 @@ class Connection
             throw new \Exception('Cannot join() without from() first.');
         }
 
-        $join                          = strtoupper(ltrim("$join JOIN"));
-        $name                          = $this->quoteName($name);
-        $cond                          = $this->fixJoinCondition($cond);
+        $join = strtoupper(ltrim("$join JOIN"));
+        $name = $this->quoteName($name);
+        $cond = $this->fixJoinCondition($cond);
         $this->from[$this->from_key][] = rtrim("$join ($spec) AS $name $cond");
         return $this;
     }
@@ -749,12 +750,12 @@ class Connection
      */
     public function page($page)
     {
-        $this->limit  = 0;
+        $this->limit = 0;
         $this->offset = 0;
 
         $page = (int)$page;
         if ($page > 0) {
-            $this->limit  = $this->paging;
+            $this->limit = $this->paging;
             $this->offset = $this->paging * ($page - 1);
         }
         return $this;
@@ -790,15 +791,15 @@ class Connection
     protected function reset()
     {
         $this->resetFlags();
-        $this->cols       = array();
-        $this->from       = array();
-        $this->from_key   = -1;
-        $this->where      = array();
-        $this->group_by   = array();
-        $this->having     = array();
-        $this->order_by   = array();
-        $this->limit      = 0;
-        $this->offset     = 0;
+        $this->cols = array();
+        $this->from = array();
+        $this->from_key = -1;
+        $this->where = array();
+        $this->group_by = array();
+        $this->having = array();
+        $this->order_by = array();
+        $this->limit = 0;
+        $this->offset = 0;
         $this->for_update = false;
     }
 
@@ -807,27 +808,27 @@ class Connection
      */
     protected function resetAll()
     {
-        $this->union                = array();
-        $this->for_update           = false;
-        $this->cols                 = array();
-        $this->from                 = array();
-        $this->from_key             = -1;
-        $this->group_by             = array();
-        $this->having               = array();
-        $this->bind_having          = array();
-        $this->paging               = 10;
-        $this->bind_values          = array();
-        $this->where                = array();
-        $this->bind_where           = array();
-        $this->order_by             = array();
-        $this->limit                = 0;
-        $this->offset               = 0;
-        $this->flags                = array();
-        $this->table                = '';
+        $this->union = array();
+        $this->for_update = false;
+        $this->cols = array();
+        $this->from = array();
+        $this->from_key = -1;
+        $this->group_by = array();
+        $this->having = array();
+        $this->bind_having = array();
+        $this->paging = 10;
+        $this->bind_values = array();
+        $this->where = array();
+        $this->bind_where = array();
+        $this->order_by = array();
+        $this->limit = 0;
+        $this->offset = 0;
+        $this->flags = array();
+        $this->table = '';
         $this->last_insert_id_names = array();
-        $this->col_values           = array();
-        $this->returning            = array();
-        $this->parameters           = array();
+        $this->col_values = array();
+        $this->returning = array();
+        $this->parameters = array();
     }
 
     /**
@@ -838,15 +839,15 @@ class Connection
     protected function buildSELECT()
     {
         return 'SELECT'
-        . $this->buildFlags()
-        . $this->buildCols()
-        . $this->buildFrom()
-        . $this->buildWhere()
-        . $this->buildGroupBy()
-        . $this->buildHaving()
-        . $this->buildOrderBy()
-        . $this->buildLimit()
-        . $this->buildForUpdate();
+            . $this->buildFlags()
+            . $this->buildCols()
+            . $this->buildFrom()
+            . $this->buildWhere()
+            . $this->buildGroupBy()
+            . $this->buildHaving()
+            . $this->buildOrderBy()
+            . $this->buildLimit()
+            . $this->buildForUpdate();
     }
 
     /**
@@ -855,12 +856,12 @@ class Connection
     protected function buildDELETE()
     {
         return 'DELETE'
-        . $this->buildFlags()
-        . $this->buildFrom()
-        . $this->buildWhere()
-        . $this->buildOrderBy()
-        . $this->buildLimit()
-        . $this->buildReturning();
+            . $this->buildFlags()
+            . $this->buildFrom()
+            . $this->buildWhere()
+            . $this->buildOrderBy()
+            . $this->buildLimit()
+            . $this->buildReturning();
     }
 
     /**
@@ -1028,7 +1029,7 @@ class Connection
      * order by ASC OR DESC
      *
      * @param array $cols
-     * @param bool  $order_asc
+     * @param bool $order_asc
      * @return self
      */
     public function orderByASC(array $cols, $order_asc = true)
@@ -1050,6 +1051,7 @@ class Connection
     }
 
     // -------------abstractquery----------
+
     /**
      * 返回逗号分隔的字符串
      *
@@ -1091,7 +1093,7 @@ class Connection
      * 单个为占位符绑定值
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      * @return self
      */
     public function bindValue($name, $value)
@@ -1117,7 +1119,7 @@ class Connection
      * 设置 flag.
      *
      * @param string $flag
-     * @param bool   $enable
+     * @param bool $enable
      */
     protected function setFlag($flag, $enable = true)
     {
@@ -1141,7 +1143,7 @@ class Connection
      * 添加 where 语句
      *
      * @param string $andor 'AND' or 'OR
-     * @param array  $conditions
+     * @param array $conditions
      * @return self
      *
      */
@@ -1155,8 +1157,8 @@ class Connection
      * 添加条件和绑定值
      *
      * @param string $clause where 、having等
-     * @param string $andor  AND、OR等
-     * @param array  $conditions
+     * @param string $andor AND、OR等
+     * @param array $conditions
      */
     protected function addClauseCondWithBind($clause, $andor, $conditions)
     {
@@ -1213,10 +1215,10 @@ class Connection
         if (!$this->order_by) {
             return '';
         }
-        
+
         $r = ' ORDER BY' . $this->indentCsv($this->order_by);
-        if(isset($this->order_asc)) {
-            $r .= ($this->order_asc)? ' ASC' : ' DESC';
+        if (isset($this->order_asc)) {
+            $r .= ($this->order_asc) ? ' ASC' : ' DESC';
         } else {
             // depend on devloper if $this->order_asc is not set.
             // devloper can call function orderBy() to set $this->order_by.
@@ -1231,7 +1233,7 @@ class Connection
      */
     protected function buildLimit()
     {
-        $has_limit  = $this->type == 'DELETE' || $this->type == 'UPDATE';
+        $has_limit = $this->type == 'DELETE' || $this->type == 'UPDATE';
         $has_offset = $this->type == 'SELECT';
 
         if ($has_offset && $this->limit) {
@@ -1270,12 +1272,12 @@ class Connection
      *
      * @param string $spec
      * @param string $sep
-     * @param int    $pos
+     * @param int $pos
      * @return string
      */
     protected function quoteNameWithSeparator($spec, $sep, $pos)
     {
-        $len   = strlen($sep);
+        $len = strlen($sep);
         $part1 = $this->quoteName(substr($spec, 0, $pos));
         $part2 = $this->replaceName(substr($spec, $pos + $len));
         return "{$part1}{$sep}{$part2}";
@@ -1322,7 +1324,7 @@ class Connection
      * 循环 quote
      *
      * @param string $val
-     * @param bool   $is_last
+     * @param bool $is_last
      * @return string
      */
     protected function quoteNamesInLoop($val, $is_last)
@@ -1342,7 +1344,7 @@ class Connection
     protected function replaceNamesAndAliasIn($val)
     {
         $quoted = $this->replaceNamesIn($val);
-        $pos    = strripos($quoted, ' AS ');
+        $pos = strripos($quoted, ' AS ');
         if ($pos !== false) {
             $bracket = strripos($quoted, ')');
             if ($bracket === false) {
@@ -1394,6 +1396,7 @@ class Connection
     }
 
     // ---------- insert --------------
+
     /**
      * 设置 `table.column` 与 last-insert-id 的映射
      *
@@ -1424,10 +1427,10 @@ class Connection
     protected function buildINSERT()
     {
         return 'INSERT'
-        . $this->buildFlags()
-        . $this->buildInto()
-        . $this->buildValuesForInsert()
-        . $this->buildReturning();
+            . $this->buildFlags()
+            . $this->buildInto()
+            . $this->buildValuesForInsert()
+            . $this->buildReturning();
     }
 
     /**
@@ -1504,10 +1507,11 @@ class Connection
     protected function buildValuesForInsert()
     {
         return ' (' . $this->indentCsv(array_keys($this->col_values)) . ') VALUES (' .
-        $this->indentCsv(array_values($this->col_values)) . ')';
+            $this->indentCsv(array_values($this->col_values)) . ')';
     }
 
     // ------update-------
+
     /**
      * 更新哪个表
      *
@@ -1547,13 +1551,13 @@ class Connection
     protected function buildUPDATE()
     {
         return 'UPDATE'
-        . $this->buildFlags()
-        . $this->buildTable()
-        . $this->buildValuesForUpdate()
-        . $this->buildWhere()
-        . $this->buildOrderBy()
-        . $this->buildLimit()
-        . $this->buildReturning();
+            . $this->buildFlags()
+            . $this->buildTable()
+            . $this->buildValuesForUpdate()
+            . $this->buildWhere()
+            . $this->buildOrderBy()
+            . $this->buildLimit()
+            . $this->buildReturning();
     }
 
     /**
@@ -1581,6 +1585,7 @@ class Connection
     }
 
     // ----------Dml---------------
+
     /**
      * 获取绑定的值
      *
@@ -1589,7 +1594,7 @@ class Connection
     public function getBindValuesCOMMON()
     {
         $bind_values = $this->bind_values;
-        $i           = 1;
+        $i = 1;
         foreach ($this->bind_where as $val) {
             $bind_values[$i] = $val;
             $i++;
@@ -1605,9 +1610,9 @@ class Connection
      */
     protected function addCol($col)
     {
-        $key                    = $this->quoteName($col);
+        $key = $this->quoteName($col);
         $this->col_values[$key] = ":$col";
-        $args                   = func_get_args();
+        $args = func_get_args();
         if (count($args) > 1) {
             $this->bindValue($col, $args[1]);
         }
@@ -1645,8 +1650,8 @@ class Connection
             $value = 'NULL';
         }
 
-        $key                    = $this->quoteName($col);
-        $value                  = $this->quoteNamesIn($value);
+        $key = $this->quoteName($col);
+        $value = $this->quoteNamesIn($value);
         $this->col_values[$key] = $value;
         return $this;
     }
@@ -1683,7 +1688,7 @@ class Connection
      * 构造函数
      *
      * @param string $host
-     * @param int    $port
+     * @param int $port
      * @param string $user
      * @param string $password
      * @param string $db_name
@@ -1692,12 +1697,12 @@ class Connection
     public function __construct($host, $port, $user, $password, $db_name, $charset = 'utf8')
     {
         $this->settings = array(
-            'host'     => $host,
-            'port'     => $port,
-            'user'     => $user,
+            'host' => $host,
+            'port' => $port,
+            'user' => $user,
             'password' => $password,
-            'dbname'   => $db_name,
-            'charset'  => $charset,
+            'dbname' => $db_name,
+            'charset' => $charset,
         );
         $this->connect();
     }
@@ -1707,7 +1712,7 @@ class Connection
      */
     protected function connect()
     {
-        $dsn       = 'mysql:dbname=' . $this->settings["dbname"] . ';host=' .
+        $dsn = 'mysql:dbname=' . $this->settings["dbname"] . ';host=' .
             $this->settings["host"] . ';port=' . $this->settings['port'];
         $this->pdo = new PDO($dsn, $this->settings["user"], $this->settings["password"],
             array(
@@ -1719,9 +1724,9 @@ class Connection
         $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     }
 
-   /**
-    * 关闭连接
-    */
+    /**
+     * 关闭连接
+     */
     public function closeConnection()
     {
         $this->pdo = null;
@@ -1737,9 +1742,10 @@ class Connection
     protected function execute($query, $parameters = "")
     {
         try {
-            if (is_null($this->pdo)) { 
-                $this->connect(); 
+            if (is_null($this->pdo)) {
+                $this->connect();
             }
+            $this->clearSQuery();
             $this->sQuery = @$this->pdo->prepare($query);
             $this->bindMore($parameters);
             if (!empty($this->parameters)) {
@@ -1755,6 +1761,7 @@ class Connection
                 $this->connect();
 
                 try {
+                    $this->clearSQuery();
                     $this->sQuery = $this->pdo->prepare($query);
                     $this->bindMore($parameters);
                     if (!empty($this->parameters)) {
@@ -1770,12 +1777,19 @@ class Connection
             } else {
                 $this->rollBackTrans();
                 $msg = $e->getMessage();
-                $err_msg = "SQL:".$this->lastSQL()." ".$msg;
+                $err_msg = "SQL:" . $this->lastSQL() . " " . $msg;
                 $exception = new \PDOException($err_msg, (int)$e->getCode());
                 throw $exception;
             }
         }
         $this->parameters = array();
+    }
+
+    private function clearSQuery()
+    {
+        if (isset($this->sQuery)) {
+            $this->sQuery = null;
+        }
     }
 
     /**
@@ -1812,22 +1826,21 @@ class Connection
      * 执行 SQL
      *
      * @param string $query
-     * @param array  $params
-     * @param int    $fetchmode
+     * @param array $params
+     * @param int $fetchmode
      * @return mixed
      */
     public function query($query = '', $params = null, $fetchmode = PDO::FETCH_ASSOC)
     {
         $query = trim($query);
         if (empty($query)) {
-            
             $union = '';
-            if (! empty($this->union)) {
+            if (!empty($this->union)) {
                 $union = implode(PHP_EOL, $this->union) . PHP_EOL;
             }
 
             $query = $union . $this->build();
-            
+
             if (!$params) {
                 $params = $this->getBindValues();
             }
@@ -1859,22 +1872,21 @@ class Connection
     /**
      * 返回一列
      *
-     * @param  string $query
-     * @param  array  $params
+     * @param string $query
+     * @param array $params
      * @return array
      */
     public function column($query = '', $params = null)
     {
         $query = trim($query);
         if (empty($query)) {
-            
             $union = '';
-            if (! empty($this->union)) {
+            if (!empty($this->union)) {
                 $union = implode(PHP_EOL, $this->union) . PHP_EOL;
             }
 
             $query = $union . $this->build();
-            
+
             if (!$params) {
                 $params = $this->getBindValues();
             }
@@ -1885,7 +1897,7 @@ class Connection
 
         $this->execute($query, $params);
         $columns = $this->sQuery->fetchAll(PDO::FETCH_NUM);
-        $column  = null;
+        $column = null;
         foreach ($columns as $cells) {
             $column[] = $cells[0];
         }
@@ -1895,23 +1907,22 @@ class Connection
     /**
      * 返回一行
      *
-     * @param  string $query
-     * @param  array  $params
-     * @param  int    $fetchmode
+     * @param string $query
+     * @param array $params
+     * @param int $fetchmode
      * @return array
      */
     public function row($query = '', $params = null, $fetchmode = PDO::FETCH_ASSOC)
     {
         $query = trim($query);
         if (empty($query)) {
-            
             $union = '';
-            if (! empty($this->union)) {
+            if (!empty($this->union)) {
                 $union = implode(PHP_EOL, $this->union) . PHP_EOL;
             }
 
             $query = $union . $this->build();
-            
+
             if (!$params) {
                 $params = $this->getBindValues();
             }
@@ -1927,22 +1938,21 @@ class Connection
     /**
      * 返回单个值
      *
-     * @param  string $query
-     * @param  array  $params
+     * @param string $query
+     * @param array $params
      * @return string
      */
     public function single($query = '', $params = null)
     {
         $query = trim($query);
         if (empty($query)) {
-            
             $union = '';
-            if (! empty($this->union)) {
+            if (!empty($this->union)) {
                 $union = implode(PHP_EOL, $this->union) . PHP_EOL;
             }
 
             $query = $union . $this->build();
-            
+
             if (!$params) {
                 $params = $this->getBindValues();
             }
@@ -1981,8 +1991,8 @@ class Connection
     public function beginTrans()
     {
         try {
-            if (is_null($this->pdo)) { 
-                $this->connect(); 
+            if (is_null($this->pdo)) {
+                $this->connect();
             }
             return $this->pdo->beginTransaction();
         } catch (PDOException $e) {
